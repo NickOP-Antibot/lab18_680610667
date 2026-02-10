@@ -10,7 +10,10 @@ using namespace std;
 struct student{
 
     //[Missing Code 1] Define struct student with four members (name ,id , gender, gpa);
-    
+    string name;
+	int id;
+	char gender;
+	float gpa;
 };
 
 struct course{
@@ -35,19 +38,19 @@ student text2student(string text){
     
     //[Missing Code 2] Fill in the blank with the correct code.;
     s.name = name;
-    s.id = _____________;
-    s.gender = _____________;
-    s.gpa = _____________;
+    s.id = atoi(id.c_str());
+    s.gender = gen[0];
+    s.gpa = stof(gpa);
     
-    _____________;
+    return s;
 }
 
 
-student * findstudent(vector<student> allstudents,int key){ //[Missing Code 4] There is something wrong in this line.
+student * findstudent(vector<student> &allstudents, int key){
 	for(unsigned int i = 0; i < allstudents.size(); i++){
-		if(allstudents[i].id  == key) return &allstudents[i];
+		if(allstudents[i].id == key) return &allstudents[i];
 	}
-	return 0;
+	return NULL;
 }
 
 void printreport(vector<course> allcourses){
@@ -95,7 +98,7 @@ int main(){
 			course c;
 			int loc = textline.find_first_of('(');
 			c.name = textline.substr(0,loc-1);
-			c.id = atof(textline.substr(loc+1,5).c_str());
+			c.id = atoi(textline.substr(loc+1,5).c_str());
 			getline(course_file,textline);
 			allcourses.push_back(c);
 			state = 2;			
@@ -104,16 +107,18 @@ int main(){
 				state = 3;
 			}else{
 			
-			    //[Missing Code 3] Append (push_back) textline to lecture_list[] of the recently added course in allcourses[];
-			    
+				//[Missing Code 3] Append (push_back) textline to lecture_list[] of the recently added course in allcourses[];
+				allcourses.back().lecture_list.push_back(textline);
+				
 			}			
 		}else{
 			if(textline == "---------------------------------------"){
 				state = 1;
 			}else{
-				student *p = findstudent(allstudents,atof(textline.c_str()));
+				student *p = findstudent(allstudents, atoi(textline.c_str()));
 				
 				//[Missing Code 5] Append (push_back) p to student_list of the recently added course in allcourses[];
+				allcourses.back().student_list.push_back(p);
 				
 			}
 		}
